@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Registeration</title>
+    <meta charset="utf-8">
+    <meta name="viewport" 
+          content="width=device-width, 
+                   initial-scale=1">
+    <link rel="stylesheet" href=
+"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js">
+    </script>
+    <script src=
+"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js">
+    </script>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2 class="form-color text-danger">Registeration Form</h2>
+        <form action="/employees/register/" class="form-horizontal" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="control-label col-sm-2">
+                    First Name
+                </label>
+                <div class="col-sm-6">
+                    <input class="form-control" 
+                           type="text" 
+                           placeholder="Enter your First Name" name="f_name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">
+                    Last Name
+                </label>
+                <div class="col-sm-6">
+                    <input class="form-control" 
+                           type="text" 
+                        
+                           placeholder="Enter your Last Name"  name="l_name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">
+                    Phone number
+                </label>
+                <div class="col-sm-6">
+                    <input class="form-control" 
+                           type="text" 
+                        
+                           placeholder="Enter your phone number"  name="pnum">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" >
+                    Email
+                </label>
+                <div class="col-sm-6">
+                    <input class="form-control" 
+                           type="email" 
+                           
+                           placeholder="Enter your Email address"  name="email">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">
+                    Password
+                </label>
+                <div class="col-sm-6">
+                    <input class="form-control" 
+                           type="password" 
+                            
+                           placeholder="Enter your password" name="pass1">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">
+                    Confirm Password
+                </label>
+                <div class="col-sm-6">
+                    <input class="form-control" 
+                           type="password" 
+                            
+                           placeholder="Confirm your password" name="pass2">
+                </div>
+            </div>
+            <div class="container">
+                <label class="control-label col-sm-2">
+                    <input type="checkbox">
+                    Accept T&C
+                </label>
+            </div>
+            
+            <div class="form-group">
+
+                <div class="col-sm-offset-2 col-sm-2"></div>
+                <button type="submit" class="btn btn-secondary">
+                    Submit
+                </button>
+                
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

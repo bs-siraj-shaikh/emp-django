@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Employees</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+<div class="container">
+  <h2 class="text-center text-danger">List of all employees</h2>         
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Email</th>
+        <th>phone_number</th>
+        <th>action</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for emp in data %}
+        <tr>
+            <td>{{ emp.first_name }}</td>
+            <td>{{ emp.last_name  }}</td>
+            <td>{{ emp.email  }}</td>
+            <td>{{ emp.phone_number }}</td>
+            <td><a href="/delete/{{emp.Empuc}}/"><i class="fa fa-trash-o" style="font-size:48px;color:red"></i></a></td>
+
+
+        </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
