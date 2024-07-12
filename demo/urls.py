@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from employees.views import register_employee,show_employee,delete_employee
+# from employees.views import register_employee,delete_employee
 
 # from employees.views import EmployeesRegistrationForm
 

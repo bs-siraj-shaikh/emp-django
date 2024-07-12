@@ -1,0 +1,103 @@
+<!-- update_emp.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Update Employee</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2 class="form-color text-danger">Update Employee Information</h2>
+        
+        <form action="" class="form-horizontal" method="post">
+            {% csrf_token %}
+            <!-- {{ form.as_p }} -->
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">
+                            First Name
+                        </label>
+                        <div class="col-sm-6">
+                            <input class="form-control" 
+                                   type="text" 
+                                   placeholder="Enter your First Name" name="f_name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">
+                            Last Name
+                        </label>
+                        <div class="col-sm-6">
+                            <input class="form-control" 
+                                   type="text" 
+                                
+                                   placeholder="Enter your Last Name"  name="l_name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">
+                            Phone number
+                        </label>
+                        <div class="col-sm-6">
+                            <input class="form-control" 
+                                   type="number" 
+                                
+                                   placeholder="Enter your phone number"  name="pnum">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" >
+                            address
+                        </label>
+                        <div class="col-sm-6">
+                            <input class="form-control" 
+                                   type="text" 
+                                   
+                                   placeholder="Enter your address"  name="address">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" >
+                            location
+                        </label>
+                        <div class="col-sm-6">
+                            <input class="form-control" 
+                                   type="text" 
+                                   placeholder="Enter your location"  name="location">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" >
+                            department
+                        </label>
+                        <div class="col-sm-6">
+                            <input class="form-control" 
+                                   type="text" 
+                                   placeholder="Enter your department"  name="department">
+                        </div>
+                    </div>
+                    
+        
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">
+                            Password
+                        </label>
+                        <div class="col-sm-6">
+                            <input class="form-control" 
+                                   type="password" 
+                                    
+                                   placeholder="Enter your password" name="pass1">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

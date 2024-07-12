@@ -2,110 +2,79 @@
 <html lang="en">
 
 <head>
-    <title>Registeration</title>
+    <title>Registration</title>
     <meta charset="utf-8">
-    <meta name="viewport" 
-          content="width=device-width, 
-                   initial-scale=1">
-    <link rel="stylesheet" href=
-"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src=
-"https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js">
-    </script>
-    <script src=
-"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js">
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-
     <div class="container">
-        <h2 class="form-color text-danger">Registeration Form</h2>
-        <form action="/employees/register/" class="form-horizontal" method="post">
+        <h2 class="text-danger">Registration Form</h2>
+        <form class="form-horizontal" method="post">
             {% csrf_token %}
             <div class="form-group">
-                <label class="control-label col-sm-2">
-                    First Name
-                </label>
+                <label class="control-label col-sm-2">First Name</label>
                 <div class="col-sm-6">
-                    <input class="form-control" 
-                           type="text" 
-                           placeholder="Enter your First Name" name="f_name">
+                    <input class="form-control" type="text" placeholder="Enter your First Name" name="f_name" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">
-                    Last Name
-                </label>
+                <label class="control-label col-sm-2">Last Name</label>
                 <div class="col-sm-6">
-                    <input class="form-control" 
-                           type="text" 
-                        
-                           placeholder="Enter your Last Name"  name="l_name">
+                    <input class="form-control" type="text" placeholder="Enter your Last Name" name="l_name">
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">
-                    Phone number
-                </label>
+                <label class="control-label col-sm-2">Phone Number</label>
                 <div class="col-sm-6">
-                    <input class="form-control" 
-                           type="text" 
-                        
-                           placeholder="Enter your phone number"  name="pnum">
+                    <input class="form-control" type="text" placeholder="Enter your Phone Number" name="pnum" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2" >
-                    Email
-                </label>
+                <label class="control-label col-sm-2">Email</label>
                 <div class="col-sm-6">
-                    <input class="form-control" 
-                           type="email" 
-                           
-                           placeholder="Enter your Email address"  name="email">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-sm-2">
-                    Password
-                </label>
-                <div class="col-sm-6">
-                    <input class="form-control" 
-                           type="password" 
-                            
-                           placeholder="Enter your password" name="pass1">
+                    <input class="form-control" type="email" placeholder="Enter your Email address" name="email" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">
-                    Confirm Password
-                </label>
+                <label class="control-label col-sm-2">Password</label>
                 <div class="col-sm-6">
-                    <input class="form-control" 
-                           type="password" 
-                            
-                           placeholder="Confirm your password" name="pass2">
+                    <input class="form-control" type="password" placeholder="Enter your Password" name="pass1" required>
                 </div>
             </div>
-            <div class="container">
-                <label class="control-label col-sm-2">
-                    <input type="checkbox">
-                    Accept T&C
-                </label>
-            </div>
-            
             <div class="form-group">
-
-                <div class="col-sm-offset-2 col-sm-2"></div>
-                <button type="submit" class="btn btn-secondary">
-                    Submit
-                </button>
-                
+                <label class="control-label col-sm-2">Confirm Password</label>
+                <div class="col-sm-6">
+                    <input class="form-control" type="password" placeholder="Confirm your Password" name="pass2" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-6">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="terms_TF" required> Accept Terms & Conditions
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-6">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
             </div>
         </form>
+        {% if messages %}
+            <div class="alert alert-info">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>
+
 </body>
 
 </html>
