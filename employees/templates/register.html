@@ -8,6 +8,75 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("form").submit(function(event) {
+                let isValid = true;
+                $(".help-block").remove();
+                $(".has-error").removeClass("has-error");
+
+                const fName = $("input[name='f_name']").val();
+                const pNum = $("input[name='pnum']").val();
+                const email = $("input[name='email']").val();
+                const pass1 = $("input[name='pass1']").val();
+                const pass2 = $("input[name='pass2']").val();
+                const terms = $("input[name='terms_TF']").is(':checked');
+
+                if (fName.trim() === "") {
+                    $("input[name='f_name']").closest(".form-group").addClass("has-error")
+                        .find('.col-sm-6')
+                        .append('<span class="help-block">First name is required.</span>');
+                    isValid = false;
+                }
+                if (pNum.trim() === "") {
+                    $("input[name='pnum']").closest(".form-group").addClass("has-error")
+                        .find('.col-sm-6')
+                        .append('<span class="help-block">Phone number is required.</span>');
+                    isValid = false;
+                }
+                else if (pNum.startsWith('0')) {
+                    $("input[name='pnum']").closest(".form-group").addClass("has-error")
+                        .find('.col-sm-6')
+                        .append('<span class="help-block">Phone number cannot start with 0.</span>');
+                    isValid = false;
+                }
+                else if (!/^\d{10}$/.test(pNum)) {
+                $("input[name='pnum']").closest(".form-group").addClass("has-error")
+                    .find('.col-sm-6')
+                    .append('<span class="help-block">Phone number must be 10 digits.</span>');
+                isValid = false;
+                }
+                if (email.trim() === "") {
+                    $("input[name='email']").closest(".form-group").addClass("has-error")
+                        .find('.col-sm-6')
+                        .append('<span class="help-block">Email is required.</span>');
+                    isValid = false;
+                }
+                if (pass1.trim() === "") {
+                    $("input[name='pass1']").closest(".form-group").addClass("has-error")
+                        .find('.col-sm-6')
+                        .append('<span class="help-block">Password is required.</span>');
+                    isValid = false;
+                }
+                if (pass1 !== pass2) {
+                    $("input[name='pass2']").closest(".form-group").addClass("has-error")
+                        .find('.col-sm-6')
+                        .append('<span class="help-block">Passwords do not match.</span>');
+                    isValid = false;
+                }
+                if (!terms) {
+                    $("input[name='terms_TF']").closest(".form-group").addClass("has-error")
+                        .find('.col-sm-6')
+                        .append('<span class="help-block">You must accept the terms and conditions.</span>');
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -15,10 +84,10 @@
         <h2 class="text-danger">Registration Form</h2>
         <form class="form-horizontal" method="post">
             {% csrf_token %}
-            <div class="form-group">
+            <div class="form-group {% if form.f_name.errors %}has-error{% endif %}">
                 <label class="control-label col-sm-2">First Name</label>
                 <div class="col-sm-6">
-                    <input class="form-control" type="text" placeholder="Enter your First Name" name="f_name" required>
+                    <input class="form-control" type="text" placeholder="Enter your First Name" name="f_name">
                 </div>
             </div>
             <div class="form-group">
@@ -30,32 +99,32 @@
             <div class="form-group">
                 <label class="control-label col-sm-2">Phone Number</label>
                 <div class="col-sm-6">
-                    <input class="form-control" type="text" placeholder="Enter your Phone Number" name="pnum" required>
+                    <input class="form-control" type="number" placeholder="Enter your Phone Number" name="pnum">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2">Email</label>
                 <div class="col-sm-6">
-                    <input class="form-control" type="email" placeholder="Enter your Email address" name="email" required>
+                    <input class="form-control" type="email" placeholder="Enter your Email address" name="email">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2">Password</label>
                 <div class="col-sm-6">
-                    <input class="form-control" type="password" placeholder="Enter your Password" name="pass1" required>
+                    <input class="form-control" type="password" placeholder="Enter your Password" name="pass1">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2">Confirm Password</label>
                 <div class="col-sm-6">
-                    <input class="form-control" type="password" placeholder="Confirm your Password" name="pass2" required>
+                    <input class="form-control" type="password" placeholder="Confirm your Password" name="pass2">
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-6">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="terms_TF" required> Accept Terms & Conditions
+                            <input type="checkbox" name="terms_TF"> Accept Terms & Conditions
                         </label>
                     </div>
                 </div>

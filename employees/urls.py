@@ -1,5 +1,5 @@
 from django.urls import path
-from employees.views import register_employee,delete_employee,login_emp,get_employee,update_employee,password_reset,password_reset_confirm
+from employees.views import register_employee,delete_employee,login_emp,get_employee,update_employee,password_reset,password_reset_confirm,logout
 
 urlpatterns = [
     path('register/', register_employee, name='register'),
@@ -8,5 +8,6 @@ urlpatterns = [
     path('update/',update_employee,name='update_employee'),
     path('delete/<int:Empuc>/', delete_employee, name='delete'),
     path('password_reset/', password_reset, name='password_reset'),
-    path('password_reset_confirm/<str:token>/',password_reset_confirm,name='password_reset_confirm')
+    path('password_reset_confirm/<str:token>/',password_reset_confirm,name='password_reset_confirm'),
+    path('logout/',logout,name='logout'),
 ]

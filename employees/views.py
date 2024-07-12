@@ -4,7 +4,7 @@ from django.contrib import messages
 # Create your views here.
 from employees.models import Employee,PasswordResetToken
 from django.core.mail import send_mail
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login,logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from employees.forms import EmployeeUpdateForm,PasswordResetForm
 from employees.models import Employee 
@@ -25,9 +25,9 @@ def register_employee(request):
         confirm_pass=request.POST.get('pass2')
         accept_terms=request.POST.get('terms_TF')
         
-        if not first_name:
-            messages.error(request,'Please enter first name')
-            return render(request,'register.html')
+        # if not first_name:
+        #     messages.error(request,'Please enter first name')
+        #     return render(request,'register.html')
         
         if password!=confirm_pass:
             messages.error(request,'Password is not matched')
@@ -49,7 +49,7 @@ def register_employee(request):
                 fail_silently=False,
             )
             messages.success(request, 'Registration successful. Welcome to the company!')
-            return redirect('/employees/show')
+            return redirect('/employees/login')
             # return render(request,'employee_list.html')
     else:
         return render(request, 'register.html') 
@@ -66,7 +66,7 @@ def login_emp(request):
             if user is not None:
                 auth_login(request, user)
                 messages.success(request, 'Login successful.')
-                return redirect('update_employee')  # Redirect to desired page after login
+                return redirect('/employees/show')  # Redirect to desired page after login
             else:
                 messages.error(request, 'Invalid username or password.')
         else:
@@ -75,6 +75,13 @@ def login_emp(request):
         form = AuthenticationForm()
     
     return render(request, 'login.html', {'form': form})
+
+def logout(request):
+    # Clear the session or any authentication mechanism
+    auth_logout(request)
+    messages.success(request,'Logout successful.')
+    return redirect('login')
+    
             
 def get_employee(request):
     qs=Employee.objects.all()
