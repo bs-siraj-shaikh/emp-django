@@ -8,6 +8,51 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("form").submit(function(event) {
+                let isValid = true;
+                $(".help-block").remove();
+                $(".has-error").removeClass("has-error");
+
+                const fName = $("input[name='f_name']").val();
+                const pNum = $("input[name='pnum']").val();
+                const pass1 = $("input[name='pass1']").val();
+
+                if (fName.trim() === "") {
+                    $("input[name='f_name']").closest(".form-group").addClass("has-error")
+                        .find('.col-sm-6')
+                        .append('<span class="help-block">First name is required.</span>');
+                    isValid = false;
+                }
+                if (pNum.trim() === "") {
+                    $("input[name='pnum']").closest(".form-group").addClass("has-error")
+                        .find('.col-sm-6')
+                        .append('<span class="help-block">Phone number is required.</span>');
+                    isValid = false;
+                } else if (pNum.startsWith('0')) {
+                    $("input[name='pnum']").closest(".form-group").addClass("has-error")
+                        .find('.col-sm-6')
+                        .append('<span class="help-block">Phone number cannot start with 0.</span>');
+                    isValid = false;
+                } else if (!/^\d{10}$/.test(pNum)) {
+                    $("input[name='pnum']").closest(".form-group").addClass("has-error")
+                        .find('.col-sm-6')
+                        .append('<span class="help-block">Phone number must be 10 digits.</span>');
+                    isValid = false;
+                }
+                if (pass1.trim() === "") {
+                    $("input[name='pass1']").closest(".form-group").addClass("has-error")
+                        .find('.col-sm-6')
+                        .append('<span class="help-block">Password is required.</span>');
+                    isValid = false;
+                }
+                if (!isValid) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
 </head>
 <body>
     <div class="container">
@@ -15,7 +60,7 @@
         
         <form action="" class="form-horizontal" method="post">
             {% csrf_token %}
-            <!-- {{ form.as_p }} -->
+            {{ form.as_p }}
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <div class="form-group">
@@ -25,7 +70,7 @@
                         <div class="col-sm-6">
                             <input class="form-control" 
                                    type="text" 
-                                   placeholder="Enter your First Name" name="f_name">
+                                   placeholder="Enter your First Name" name="f_name" value="{{ employee.first_name }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -36,7 +81,7 @@
                             <input class="form-control" 
                                    type="text" 
                                 
-                                   placeholder="Enter your Last Name"  name="l_name">
+                                   placeholder="Enter your Last Name"  name="l_name" value="{{ employee.last_name }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -47,7 +92,7 @@
                             <input class="form-control" 
                                    type="number" 
                                 
-                                   placeholder="Enter your phone number"  name="pnum">
+                                   placeholder="Enter your phone number"  name="pnum" value="{{ employee.phone_number }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -58,7 +103,7 @@
                             <input class="form-control" 
                                    type="text" 
                                    
-                                   placeholder="Enter your address"  name="address">
+                                   placeholder="Enter your address"  name="address" value="{{ employee.address|default_if_none:'' }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -68,7 +113,7 @@
                         <div class="col-sm-6">
                             <input class="form-control" 
                                    type="text" 
-                                   placeholder="Enter your location"  name="location">
+                                   placeholder="Enter your location"  name="location" value="{{ employee.location|default_if_none:'' }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -78,7 +123,7 @@
                         <div class="col-sm-6">
                             <input class="form-control" 
                                    type="text" 
-                                   placeholder="Enter your department"  name="department">
+                                   placeholder="Enter your department"  name="department" value="{{ employee.department|default_if_none:'' }}">
                         </div>
                     </div>
                     
@@ -91,13 +136,20 @@
                             <input class="form-control" 
                                    type="password" 
                                     
-                                   placeholder="Enter your password" name="pass1">
+                                   placeholder="Enter your password" name="pass1" value="{{ employee.password }}">
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </div>
             </div>
         </form>
+        {% if messages %}
+        <div class="alert alert-info">
+            {% for message in messages %}
+            {{ message }}
+            {% endfor %}
+        </div>
+        {% endif %}
     </div>
 </body>
 </html>

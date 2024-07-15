@@ -135,7 +135,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_PASSWORD = '189250e6a4bdc77539df63cc6d5f14f9'  # Replace with your Mailtrap password
 DEFAULT_FROM_EMAIL = 'mailtrap@demomailtrap.com'
 
-EMAIL_HOST = 'live.smtp.mailtrap.io'
+EMAIL_HOST = 'bulk.smtp.mailtrap.io'
 EMAIL_HOST_USER = 'api'
 # EMAIL_HOST_PASSWORD = '********14f9'
 # EMAIL_PORT = '587'

@@ -34,7 +34,7 @@
             </div>
         </form>
         {% if messages %}
-        <div class="alert alert-danger">
+        <div class="alert alert-{{ message_type }}">
             {% for message in messages %}
             {{ message }}
             {% endfor %}

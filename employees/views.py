@@ -25,17 +25,9 @@ def register_employee(request):
         confirm_pass=request.POST.get('pass2')
         accept_terms=request.POST.get('terms_TF')
         
-        # if not first_name:
-        #     messages.error(request,'Please enter first name')
-        #     return render(request,'register.html')
-        
         if password!=confirm_pass:
             messages.error(request,'Password is not matched')
             return render(request, 'register.html') 
-            
-        # if messages:
-        #     return redirect('register')
-        
         
         qs=Employee.objects.create_user(first_name=first_name,last_name=last_name,phone_number=phone_number,email=email, password=password)
         # print(qs.Empuc)
@@ -57,7 +49,6 @@ def register_employee(request):
 
 def login_emp(request):
     if request.method == 'POST':
-        # import pdb;pdb.set_trace()
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -65,19 +56,30 @@ def login_emp(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 auth_login(request, user)
-                messages.success(request, 'Login successful.')
+                messages.add_message(request, messages.INFO, 'Login successful.')
                 return redirect('/employees/show')  # Redirect to desired page after login
             else:
-                messages.error(request, 'Invalid username or password.')
+                messages.add_message(request, messages.ERROR, 'Invalid username or password.')
         else:
             messages.error(request, 'Invalid username or password.')
+    
     else:
         form = AuthenticationForm()
     
-    return render(request, 'login.html', {'form': form})
+    # Determine the message type
+    message_type = 'danger' if any(m.level == messages.ERROR for m in messages.get_messages(request)) else 'info'
+    
+    context = {
+        'form': form,
+        'messages': messages.get_messages(request),
+        'message_type': message_type
+    }
+    
+    return render(request, 'login.html', context)
+
 
 def logout(request):
-    # Clear the session or any authentication mechanism
+    
     auth_logout(request)
     messages.success(request,'Logout successful.')
     return redirect('login')
@@ -93,10 +95,10 @@ def get_employee(request):
 # @login_required
 def update_employee(request):
     try:
-        employee = request.user  # Retrieve the employee associated with the logged-in user
-    except Employee.DoesNotExist:
+        employee = request.user  
+    except employee.DoesNotExist:
         messages.error(request, 'Employee profile not found.')
-        return redirect('login')  # Redirect to login page if employee profile is not found
+        return redirect('login')  
 
     # import pdb;pdb.set_trace()
     if request.method == 'POST':
@@ -109,10 +111,10 @@ def update_employee(request):
             'location':request.POST.get('location'),
             'address':request.POST.get('address'),   
         }
-        # employee.(data=data)
-        for field, value in data.items():
-            setattr(employee, field, value)
-        employee.save()
+        
+        data = {k: v for k, v in data.items() if v}
+        Employee.objects.filter(Empuc=employee.Empuc).update(**data)
+        
         
         
         messages.success(request, 'Employee information updated successfully.')
@@ -147,7 +149,6 @@ def password_reset(request):
 def password_reset_confirm(request, token):
     try:
         reset_token = PasswordResetToken.objects.get(token=token, expires_at__gt=datetime.now())
-        # Proceed with password reset (e.g., show a form to reset the password)
         
     except PasswordResetToken.DoesNotExist:
         return HttpResponse('Invalid or expired token', status=400)
@@ -191,10 +192,10 @@ def generate_token():
 
 def delete_employee(request,Empuc):
     if request.method == 'POST':
-        emp = Employee.objects.get(Empuc=Empuc) # Get the authenticated user
+        emp = Employee.objects.get(Empuc=Empuc) 
         emp.delete()
         messages.success(request, 'Your account has been deleted successfully.')
-        return redirect('login')  # Redirect to login page after deletion
+        return redirect('login') 
     
     return render(request, 'delete_emp.html')
     
