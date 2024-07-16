@@ -12,6 +12,7 @@ from employees.forms import EmployeesRegistrationForm
 from datetime import datetime, timedelta
 from django.contrib.auth.forms import AuthenticationForm
 import secrets
+from django.core.paginator import Paginator
 from django.urls import reverse
 
 
@@ -86,11 +87,12 @@ def logout(request):
     
             
 def get_employee(request):
-    qs=Employee.objects.all()
-    result={
-        'data':qs
-    }
-    return render(request,'employee_list.html',result)
+    employee_list = Employee.objects.all()
+    paginator = Paginator(employee_list, 2)  # Show 10 employees per page
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'employee_list.html', {'page_obj': page_obj})
 
 # @login_required
 def update_employee(request):
@@ -135,7 +137,7 @@ def password_reset(request):
             reset_url=create_reset_url(request,token)
             send_mail(
                 'Password Reset',
-                f'Here is the link to reset password{reset_url}',
+                f'Here is the link to reset password: {reset_url}',
                 'mailtrap@demomailtrap.com',
                 [email],
                 fail_silently=False,

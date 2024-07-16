@@ -27,7 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
+}
 # Application definition
 
 INSTALLED_APPS = [
@@ -131,8 +134,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = 'smtp.mailtrap.io'
 EMAIL_PORT = '587'
 EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = 'mailtrap@demomailtrap.com'  # Replace with your Mailtrap username
-EMAIL_HOST_PASSWORD = '189250e6a4bdc77539df63cc6d5f14f9'  # Replace with your Mailtrap password
+# EMAIL_HOST_USER = 'mailtrap@demomailtrap.com'  
+EMAIL_HOST_PASSWORD = '189250e6a4bdc77539df63cc6d5f14f9'
 DEFAULT_FROM_EMAIL = 'mailtrap@demomailtrap.com'
 
 EMAIL_HOST = 'bulk.smtp.mailtrap.io'
