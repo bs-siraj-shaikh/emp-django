@@ -70,6 +70,7 @@ def login_emp(request):
     # Determine the message type
     message_type = 'danger' if any(m.level == messages.ERROR for m in messages.get_messages(request)) else 'info'
     
+    
     context = {
         'form': form,
         'messages': messages.get_messages(request),
@@ -88,13 +89,13 @@ def logout(request):
             
 def get_employee(request):
     employee_list = Employee.objects.all()
-    paginator = Paginator(employee_list, 2)  # Show 10 employees per page
+    paginator = Paginator(employee_list, 2)
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'employee_list.html', {'page_obj': page_obj})
 
-# @login_required
+@login_required
 def update_employee(request):
     try:
         employee = request.user  

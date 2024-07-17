@@ -6,48 +6,110 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <style>
+        .loader {
+            display: none;
+            text-align: left;
+            margin-top: 4px; 
+        }
+
+        .loader img {
+            width: 200px; 
+            height: 200px; 
+        }
+    </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
-            $("form").submit(function(event) {
+            function validateField(field, validationFunc, errorMessage) {
+                let value = field.val();
+                let formGroup = field.closest(".form-group");
+                let helpBlock = formGroup.find(".help-block");
+
+                if (validationFunc(value)) {
+                    formGroup.removeClass("has-error");
+                    helpBlock.remove();
+                } else {
+                    if (!helpBlock.length) {
+                        formGroup.addClass("has-error").find('.col-sm-6')
+                            .append('<span class="help-block">' + errorMessage + '</span>');
+                    }
+                }
+            }
+
+            function validateForm() {
                 let isValid = true;
-                $(".help-block").remove();
-                $(".has-error").removeClass("has-error");
 
-                const fName = $("input[name='f_name']").val();
-                const pNum = $("input[name='pnum']").val();
-                const pass1 = $("input[name='pass1']").val();
+                let fName = $("input[name='f_name']");
+                let lName = $("input[name='l_name']");
+                let pNum = $("input[name='pnum']");
+                let address = $("input[name='address']");
+                let location = $("input[name='location']");
+                let department = $("input[name='department']");
 
-                if (fName.trim() === "") {
-                    $("input[name='f_name']").closest(".form-group").addClass("has-error")
-                        .find('.col-sm-6')
-                        .append('<span class="help-block">First name is required.</span>');
-                    isValid = false;
+                validateField(fName, value => value.trim() !== "", "First name is required.");
+                validateField(pNum, value => value.trim() !== "", "Phone number is required.");
+                validateField(pNum, value => !value.startsWith('0'), "Phone number cannot start with 0.");
+                validateField(pNum, value => /^[1-9]\d{9}$/.test(value),"Phone number must be exactly 10 digits.");
+
+                $(".form-group.has-error").each(function() {
+                    if ($(this).find(".help-block").length) {
+                        isValid = false;
+                    }
+                });
+
+                return isValid;
+            }
+
+            // Real-time validation on input change
+            $("input").on("input", function() {
+                let field = $(this);
+                let name = field.attr('name');
+
+                if (name === 'f_name') {
+                    validateField(field, value => value.trim() !== "", "First name is required.");
+                } else if (name === 'l_name') {
+                    // Add validation as needed for last name
+                    validateField(field, value => true, "");
+                } else if (name === 'pnum') {
+                    validateField(field, value => value.trim() !== "", "Phone number is required.");
+                    validateField(field, value => !value.startsWith('0'), "Phone number cannot start with 0.");
+                    validateField(field, value => /^[1-9]\d{9}$/.test(value), "Phone number must be 10 digits.");
+                } else if (name === 'address') {
+                    // Add validation as needed for address
+                    validateField(field, value => true, "");
+                } else if (name === 'location') {
+                    // Add validation as needed for location
+                    validateField(field, value => true, "");
+                } else if (name === 'department') {
+                    // Add validation as needed for department
+                    validateField(field, value => true, "");
                 }
-                if (pNum.trim() === "") {
-                    $("input[name='pnum']").closest(".form-group").addClass("has-error")
-                        .find('.col-sm-6')
-                        .append('<span class="help-block">Phone number is required.</span>');
-                    isValid = false;
-                } else if (pNum.startsWith('0')) {
-                    $("input[name='pnum']").closest(".form-group").addClass("has-error")
-                        .find('.col-sm-6')
-                        .append('<span class="help-block">Phone number cannot start with 0.</span>');
-                    isValid = false;
-                } else if (!/^\d{10}$/.test(pNum)) {
-                    $("input[name='pnum']").closest(".form-group").addClass("has-error")
-                        .find('.col-sm-6')
-                        .append('<span class="help-block">Phone number must be 10 digits.</span>');
-                    isValid = false;
+            });
+
+            // Submit form validation
+            $("form").submit(function(event) {
+                if (!validateForm()) {
+                    event.preventDefault();
                 }
-                if (pass1.trim() === "") {
-                    $("input[name='pass1']").closest(".form-group").addClass("has-error")
-                        .find('.col-sm-6')
-                        .append('<span class="help-block">Password is required.</span>');
-                    isValid = false;
-                }
-                if (!isValid) {
+            });
+            $("form").submit(function (event) {
+                let form = $(this);
+
+                if (validateForm()) {
+                    // Show loader
+                    form.find('.loader').show();
+
+
+                    // Simulate submission delay (remove setTimeout in actual use)
+                    setTimeout(function () {
+                        form.find('.loader').hide(); // Hide loader
+                        form.find('button[type="submit"]').prop('disabled', false);
+                        console.log("Form submitted!");
+                    },5000); 
+
+                } else {
                     event.preventDefault();
                 }
             });
@@ -81,7 +143,7 @@
                             <input class="form-control" 
                                    type="text" 
                                 
-                                   placeholder="Enter your Last Name"  name="l_name" value="{{ employee.last_name }}">
+                                   placeholder="Enter your Last Name"  name="l_name" value="{{ employee.last_name|default_if_none:'' }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -126,21 +188,11 @@
                                    placeholder="Enter your department"  name="department" value="{{ employee.department|default_if_none:'' }}">
                         </div>
                     </div>
-                    
-        
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">
-                            Password
-                        </label>
-                        <div class="col-sm-6">
-                            <input class="form-control" 
-                                   type="password" 
-                                    
-                                   placeholder="Enter your password" name="pass1" value="{{ employee.password }}">
-                        </div>
-                    </div>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </div>
+            </div>
+            <div class="loader col-sm-offset-5 col-sm-10">
+                <img src="https://cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif" alt="Loading...">
             </div>
         </form>
         {% if messages %}

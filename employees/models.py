@@ -22,7 +22,7 @@ class Employee(AbstractBaseUser, PermissionsMixin):
     
         
     USERNAME_FIELD="email"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ["first_name","phone_number"]
     
     objects = CustomUserManager()
     

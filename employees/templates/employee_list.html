@@ -33,8 +33,10 @@
             <td>{{ emp.last_name  }}</td>
             <td>{{ emp.email  }}</td>
             <td>{{ emp.phone_number }}</td>
-            <td><a href="/employees/delete/{{ emp.Empuc }}"><i class="fa fa-trash-o" style="font-size:48px;color:red"></i></a></td>
-
+            <td>
+              <a href="/employees/delete/{{ emp.Empuc }}"><i class="fa fa-trash-o" style="font-size:48px;color:red"></i></a>
+              <a href="/employees/update/"><i class="fa fa-pencil pull-right" style="font-size:24px;color:blue"></i></a>
+            </td>
 
         </tr>
     {% endfor %}

@@ -42,7 +42,7 @@ class PasswordResetForm(forms.Form):
 class EmployeeUpdateForm(forms.ModelForm):
     class Meta:
         model = Employee
-        fields = ['first_name','last_name', 'email', 'phone_number',]
+        fields = ['first_name', 'last_name', 'phone_number', 'department', 'location', 'address']
 
     def __init__(self, *args, **kwargs):
         super(EmployeeUpdateForm, self).__init__(*args, **kwargs)
